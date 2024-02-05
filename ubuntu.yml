@@ -132,7 +132,7 @@ Resources:
           if [$? -eq 0]; then
           aws cloudformation list-exports \
           --profile awsbootstrap \
-          —query "Exports[?Name=='InstanceEndpoint'].Value"
+          --query "Exports[?Name=='InstanceEndpoint'].Value"
           fi
           # Descargar e instalar Apache Tomcat (ajusta la versión según tus necesidades)
           wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.18/bin/apache-tomcat-10.1.18.tar.gz -O tomcat.tar.gz
@@ -204,9 +204,12 @@ Resources:
           cd build/libs/
           mv holamundo-0.0.1-SNAPSHOT-plain.war /opt/tomcat/webapps/holamundo-0.0.1-SNAPSHOT-plain.war
 
+          # Salida de la ruta de la aplicación instalada
+          echo "La ruta de la aplicación instalada es: /opt/tomcat/webapps/holamundo-0.0.1-SNAPSHOT-plain.war"
 
           # Esta tiene que ser la última instrucción
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
+         
       Tags:
         - Key: Name
           Value: !Ref AWS::StackName
